@@ -611,6 +611,17 @@ bool LiIsMicrophoneStreamActive(void);
 // motion instead, so a client can turn it off. Call before LiStartConnection().
 void LiSetMouseWiggleOnConnect(bool enabled);
 
+// Ports to use instead of the ones the host names (RTSP URL, RTSP SETUP replies), e.g. behind a NAT
+// that maps them elsewhere. 0 keeps the host's. Call before LiStartConnection().
+typedef struct _PORT_OVERRIDES {
+    uint16_t rtsp;
+    uint16_t video;
+    uint16_t audio;
+    uint16_t control;
+    uint16_t mic;
+} PORT_OVERRIDES, *PPORT_OVERRIDES;
+void LiSetPortOverrides(const PORT_OVERRIDES* overrides);
+
 // This function returns an estimate of the current RTT to the host PC obtained via ENet
 // protocol statistics. This function will fail if the current GFE version does not use
 // ENet for the control stream (very old versions), or if the ENet peer is not connected.

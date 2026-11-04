@@ -1218,6 +1218,7 @@ int performRtspHandshake(PSERVER_INFORMATION serverInfo) {
         else {
             Limelog("Audio port: %u\n", AudioPortNumber);
         }
+        applyPortOverride("Audio", &AudioPortNumber, PortOverrides.audio);
 
         // Parse the Sunshine ping payload protocol extension if present
         memset(&AudioPingPayload, 0, sizeof(AudioPingPayload));
@@ -1302,6 +1303,7 @@ int performRtspHandshake(PSERVER_INFORMATION serverInfo) {
         else {
             Limelog("Video port: %u\n", VideoPortNumber);
         }
+        applyPortOverride("Video", &VideoPortNumber, PortOverrides.video);
 
         freeMessage(&response);
     }
@@ -1334,6 +1336,7 @@ int performRtspHandshake(PSERVER_INFORMATION serverInfo) {
         else {
             Limelog("Microphone port: %u\n", MicPortNumber);
         }
+        applyPortOverride("Microphone", &MicPortNumber, PortOverrides.mic);
 
         pingPayload = getOptionContent(response.options, "X-SS-Ping-Payload");
         if (pingPayload != NULL && strlen(pingPayload) == sizeof(MicPingPayload.payload)) {
@@ -1382,6 +1385,7 @@ int performRtspHandshake(PSERVER_INFORMATION serverInfo) {
         else {
             Limelog("Control port: %u\n", ControlPortNumber);
         }
+        applyPortOverride("Control", &ControlPortNumber, PortOverrides.control);
 
         freeMessage(&response);
     }

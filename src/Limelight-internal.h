@@ -15,6 +15,8 @@
 
 // Common globals
 extern char* RemoteAddrString;
+extern PORT_OVERRIDES PortOverrides;
+void applyPortOverride(const char* name, uint16_t* port, uint16_t override);
 extern struct sockaddr_storage RemoteAddr;
 extern struct sockaddr_storage LocalAddr;
 extern SOCKADDR_LEN AddrLen;

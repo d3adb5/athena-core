@@ -60,6 +60,24 @@ static const char* stageNames[STAGE_MAX] = {
     "microphone stream initialization"
 };
 
+PORT_OVERRIDES PortOverrides;
+
+void LiSetPortOverrides(const PORT_OVERRIDES* overrides) {
+    if (overrides != NULL) {
+        PortOverrides = *overrides;
+    }
+    else {
+        memset(&PortOverrides, 0, sizeof(PortOverrides));
+    }
+}
+
+void applyPortOverride(const char* name, uint16_t* port, uint16_t override) {
+    if (override != 0 && override != *port) {
+        Limelog("%s port: %u (set by the client; the host named %u)\n", name, override, *port);
+        *port = override;
+    }
+}
+
 void LiSetMouseWiggleOnConnect(bool enabled) {
     mouseWiggleOnConnect = enabled;
 }
@@ -295,6 +313,7 @@ int LiStartConnection(PSERVER_INFORMATION serverInfo, PSTREAM_CONFIGURATION stre
     else {
         Limelog("RTSP port: %u\n", RtspPortNumber);
     }
+    applyPortOverride("RTSP", &RtspPortNumber, PortOverrides.rtsp);
 
     alreadyTerminated = false;
     ConnectionInterrupted = false;
